@@ -1,4 +1,18 @@
 <manifest projecttype="ACCOUNTCUSTOMIZATION">
-  <projectname>11-ProyectoReporteDescuentosSobreVentas</projectname>
+  <projectname>8-ProyectoReporteDescuentosSobreVentas</projectname>
   <frameworkversion>1.0</frameworkversion>
+  <dependencies>
+    <features>
+      <feature required="true">SERVERSIDESCRIPTING</feature>
+    </features>
+    <objects>
+      <object>custitem3</object>
+      <object>customrecord_ns_tipo_documento</object>
+      <object>custbody114</object>
+      <object>customlist1262</object>
+      <object>custcol_ns_afec_igv</object>
+      <object>custbody_ns_document_type</object>
+      <object>customrecord_ns_afec_igv</object>
+    </objects>
+  </dependencies>
 </manifest>
