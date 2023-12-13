@@ -19,15 +19,12 @@ define(['./Lib.Basic', './Lib.Search', './Lib.Process', './Lib.Helper', 'N'],
 
             // Obtenemos descuento
             dataDescuentoVtas.forEach((ventas, key) => {
+
                 let tipo_doc_id = Number(ventas['ns_tipo_documento']['id']);
                 let tipo_doc_nombre = String(ventas['ns_tipo_documento']['nombre']).trim();
-                let articulo_id = Number(ventas['articulo']['id']);
-                let articulo_codigo = String(ventas['articulo']['codigo']).trim();
+                let cuenta_contable_numero = String(ventas['cuenta_contable']['numero']);
 
-                let arrayArticuloId = [8885, 8890, 8895, 8935, 17242];
-                let arrayArticuloCodigo = ['VAR0000003', 'VAR0000008', 'VAR0000013', 'VAR0000067', 'VAR0000075'];
-
-                if ((tipo_doc_id == 8 || tipo_doc_nombre == 'Nota de credito') && (arrayArticuloId.includes(articulo_id) || arrayArticuloCodigo.includes(articulo_codigo))) {
+                if ((tipo_doc_id == 8 || tipo_doc_nombre == 'Nota de credito') && (cuenta_contable_numero.substring(0, 2) == '74')) {
                     dataDescuentoVtas[key]['descuento'] = Math.abs(ventas['importe_bruto_soles']);
                     dataDescuentoVtas[key]['importe_bruto_soles'] = 0;
                 } else {
