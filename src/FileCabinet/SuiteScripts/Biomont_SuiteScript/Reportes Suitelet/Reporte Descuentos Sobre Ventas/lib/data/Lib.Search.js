@@ -266,6 +266,18 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                 summary: "MAX",
                 label: "Periodo Contable : Nombre"
             });
+            transactionQuery.pushColumn({
+                name: "formulatext",
+                summary: "MAX",
+                formula: "'-'",
+                label: "Cuenta Contable : ID interno"
+            });
+            transactionQuery.pushColumn({
+                name: "formulatext",
+                summary: "MAX",
+                formula: "'-'",
+                label: "Cuenta Contable : Número"
+            });
 
             // Agregar filtros
             transactionQuery.updateFilters([
@@ -277,10 +289,9 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                 "AND",
                 array_where_date,
                 "AND",
-                [
-                    [["item.custitem3", "anyof", "1", "3", "2", "9", "11", "10"], "OR",
-                    [["item.custitem3", "anyof", "38"], "AND", ["item", "anyof", "8885", "8890", "8895", "8935", "17242"]]]
-                ],
+                ["item.custitem3", "anyof", "1", "3", "2", "9", "11", "10", "38"],
+                "AND",
+                [["account.number", "startswith", "70"], "OR", ["account.number", "startswith", "74"]],
                 "AND",
                 ["item", "noneof", "12727", "4511"],
                 "AND",
@@ -316,6 +327,8 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                 let importe_neto_soles = node.getValue(12);
                 let periodo_contable = node.getValue(13);
                 let periodo_contable_nombre = node.getValue(14);
+                let cuenta_contable = '-';
+                let cuenta_contable_numero = '-';
 
                 resultTransaction.push({
                     id_interno: id_interno,
@@ -332,6 +345,7 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                     importe_neto_soles: importe_neto_soles,
                     periodo_contable: periodo_contable,
                     periodo_contable_nombre: periodo_contable_nombre,
+                    cuenta_contable: { id: cuenta_contable, numero: cuenta_contable_numero },
                 });
             });
 
@@ -415,11 +429,21 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                 name: "internalid",
                 join: "accountingPeriod",
                 label: "Periodo Contable : ID interno"
-             });
+            });
             transactionQuery.pushColumn({
                 name: "periodname",
                 join: "accountingPeriod",
                 label: "Periodo Contable : Nombre"
+            });
+            transactionQuery.pushColumn({
+                name: "internalid",
+                join: "account",
+                label: "Cuenta Contable : ID interno"
+            });
+            transactionQuery.pushColumn({
+                name: "number",
+                join: "account",
+                label: "Cuenta Contable : Número"
             });
 
             // Agregar filtros
@@ -432,10 +456,9 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                 "AND",
                 array_where_date,
                 "AND",
-                [
-                    [["item.custitem3", "anyof", "1", "3", "2", "9", "11", "10"], "OR",
-                    [["item.custitem3", "anyof", "38"], "AND", ["item", "anyof", "8885", "8890", "8895", "8935", "17242"]]]
-                ],
+                ["item.custitem3", "anyof", "1", "3", "2", "9", "11", "10", "38"],
+                "AND",
+                [["account.number", "startswith", "70"], "OR", ["account.number", "startswith", "74"]],
                 "AND",
                 ["item", "noneof", "12727", "4511"],
                 "AND",
@@ -471,6 +494,8 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                 let importe_neto_soles = node.getValue(12);
                 let periodo_contable = node.getValue(13);
                 let periodo_contable_nombre = node.getValue(14);
+                let cuenta_contable = node.getValue(15);
+                let cuenta_contable_numero = node.getValue(16);
 
                 resultTransaction.push({
                     id_interno: id_interno,
@@ -487,6 +512,7 @@ define(['./Lib.Basic', './Lib.Helper', 'N'],
                     importe_neto_soles: importe_neto_soles,
                     periodo_contable: periodo_contable,
                     periodo_contable_nombre: periodo_contable_nombre,
+                    cuenta_contable: { id: cuenta_contable, numero: cuenta_contable_numero },
                 });
             });
 
