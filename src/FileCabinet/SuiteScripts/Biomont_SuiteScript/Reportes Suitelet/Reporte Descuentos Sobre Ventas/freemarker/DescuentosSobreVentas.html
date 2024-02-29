@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VentaCostoEstandar_Detallada</title>
+</head>
+
+<body>
+
+    <!-- CONFIGURACION FREEMARKER -->
+    <#setting number_format=",##0" />
+
+    <!-- ESTO ES LO QUE VE EL USUARIO -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/components/icon.min.css" />
+
+    <div class="bm-viewer">
+        <div class="bm-viewer-action">
+            <i class="big file green excel icon" onclick="exportToExcel()" style="margin-left: 10px;"></i>
+        </div>
+        <div class="bm-container">
+            <div class="bm-container-body">
+                <table class="bm-report-table">
+
+                    <!-- Start here test -->
+                    <!--
+                    <tr>
+                        <td>${context.transactions.dataDescuentoVtas.anio["2023"].mes["11"].totales.importe_bruto_soles}</td>
+                        <td>${context.transactions.dataDescuentoVtas.anio["2023"].mes["11"].totales.descuento}</td>
+                        <td>${context.transactions.dataDescuentoVtas.anio["2023"].mes["11"].totales.importe_neto_soles}</td>
+                    </tr>
+                    <#list context.transactions.dataDescuentoVtas.anio["2023"].mes as clave, valor>
+                        <#assign meses = context.transactions.dataDescuentoVtas.anio["2023"].mes[clave] />
+                        <tr>
+                            <td>${meses.totales.importe_bruto_soles}</td>
+                            <td>${meses.totales.importe_bruto_soles}</td>
+                            <td>${meses.totales.importe_bruto_soles}</td>
+                        </tr>
+                        <tr>
+                            <td>${valor.totales.importe_bruto_soles}</td>
+                            <td>${valor.totales.importe_bruto_soles}</td>
+                            <td>${valor.totales.importe_bruto_soles}</td>
+                        </tr>
+                    </#list>
+                    -->
+                    <!-- End here test -->
+
+                    <!-- Inicio de cabecera (tabla) -->
+                    <thead>
+                        <tr>
+                            <!-- Mes -->
+                            <th>
+                                <span>&nbsp;</span>
+                            </th>
+
+                            <!-- Año seleccionado -->
+                            <th class="center" colspan="4">
+                                ${context.anio}
+                            </th>
+
+                            <!-- Separador -->
+                            <th class="separador">
+                                <span>&nbsp;</span>
+                            </th>
+
+                            <!-- Año anterior -->
+                            <th class="center" colspan="4">
+                                ${context.anio_}
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <!-- Mes -->
+                            <th>
+                                <span>MES</span>
+                            </th>
+
+                            <!-- Año seleccionado -->
+                            <th class="right">
+                                <span>VENTA</span>
+                            </th>
+                            <th class="right">
+                                <span>DSCTO</span>
+                            </th>
+                            <th class="right">
+                                <span>V. NETA</span>
+                            </th>
+                            <th class="right">
+                                <span>% Dscto</span>
+                            </th>
+
+                            <!-- Separador -->
+                            <th class="separador">
+                                <span>&nbsp;</span>
+                            </th>
+
+                            <!-- Año anterior -->
+                            <th class="right">
+                                <span>VENTA</span>
+                            </th>
+                            <th class="right">
+                                <span>DSCTO</span>
+                            </th>
+                            <th class="right">
+                                <span>V. NETA</span>
+                            </th>
+                            <th class="right">
+                                <span>% Dscto</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- Fin de cabecera (tabla) -->
+
+                    <tbody>
+                        <!-- Inicio de cuerpo (tabla) -->
+                        <#list context.transactions.dataDescuentoVtas.anio[context.anio].mes as keymeses, meses>
+                            <#list meses as keyventas, ventas>
+                                <#if keyventas == 'totales'>
+                                    <#assign importe_bruto_soles = ventas.importe_bruto_soles!0>
+                                    <#assign descuento = ventas.descuento!0>
+                                    <#assign importe_neto_soles = ventas.importe_neto_soles!0>
+                                    <#assign periodo_contable = ventas.periodo_contable>
+
+                                    <#if (importe_bruto_soles == 0)>
+                                        <#assign porcentaje = 0>
+                                    <#else>
+                                        <#assign porcentaje = (descuento * 100) / importe_bruto_soles>
+                                    </#if>
+
+                                    <#assign importe_bruto_soles_ = context.transactions.dataDescuentoVtas.anio[context.anio_].mes[keymeses].totales.importe_bruto_soles!0>
+                                    <#assign descuento_ = context.transactions.dataDescuentoVtas.anio[context.anio_].mes[keymeses].totales.descuento!0>
+                                    <#assign importe_neto_soles_ = context.transactions.dataDescuentoVtas.anio[context.anio_].mes[keymeses].totales.importe_neto_soles!0>
+                                    <#assign periodo_contable_ = context.transactions.dataDescuentoVtas.anio[context.anio_].mes[keymeses].totales.periodo_contable>
+
+                                    <#if (importe_bruto_soles_ == 0)>
+                                        <#assign porcentaje_ = 0>
+                                    <#else>
+                                        <#assign porcentaje_ = (descuento_ * 100) / importe_bruto_soles_>
+                                    </#if>
+
+                                    <tr>
+                                        <!-- Mes -->
+                                        <td>${context.json_meses[keymeses]}</td>
+                                        <!-- Año seleccionado -->
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable}">${importe_bruto_soles}</span></td>
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable}">${descuento}</span></td>
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable}">${importe_neto_soles}</span></td>
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable}">${porcentaje}%</span></td>
+                                        <!-- Separador -->
+                                        <td class="separador">&nbsp;</td>
+                                        <!-- Año anterior -->
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable_}"><#if importe_bruto_soles_?exists>${importe_bruto_soles_}<#else>0</#if></span></td>
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable_}"><#if descuento_?exists>${descuento_}<#else>0</#if></span></td>
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable_}"><#if importe_neto_soles_?exists>${importe_neto_soles_}<#else>0</#if></span></td>
+                                        <td class="right"><span class="bm-lbl" bm-period="${periodo_contable_}"><#if porcentaje_?exists>${porcentaje_}<#else>0</#if>%</span></td>
+                                    </tr>
+                                </#if>
+                            </#list>
+                        </#list>
+                        <!-- Fin de cuerpo (tabla) -->
+
+                        <!-- Inicio pie (tabla) -->
+                        <tr class="summary-total">
+                            <#assign totales = context.transactions.dataDescuentoVtas.anio[context.anio].totales>
+                            <#assign totales_ = context.transactions.dataDescuentoVtas.anio[context.anio_].totales>
+
+                            <#if (totales.importe_bruto_soles == 0)>
+                                <#assign porcentaje_total = 0>
+                            <#else>
+                                <#assign porcentaje_total = (totales.descuento * 100) / totales.importe_bruto_soles>
+                            </#if>
+
+                            <#if (totales_.importe_bruto_soles == 0)>
+                                <#assign porcentaje_total_ = 0>
+                            <#else>
+                                <#assign porcentaje_total_ = (totales_.descuento * 100) / totales_.importe_bruto_soles>
+                            </#if>
+
+                            <td>Totales</td>
+                            <!-- Año seleccionado -->
+                            <td class="right">${totales.importe_bruto_soles}</td>
+                            <td class="right">${totales.descuento}</td>
+                            <td class="right">${totales.importe_neto_soles}</td>
+                            <td class="right">${porcentaje_total}%</td>
+                            <!-- Separador -->
+                            <td class="separador">&nbsp;</td>
+                            <!-- Año anterior -->
+                            <td class="right">${totales_.importe_bruto_soles}</td>
+                            <td class="right">${totales_.descuento}</td>
+                            <td class="right">${totales_.importe_neto_soles}</td>
+                            <td class="right">${porcentaje_total_}%</td>
+                        </tr>
+                        <!-- Fin de pie (tabla) -->
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- CERRAR ESTO ES LO QUE VE EL USUARIO -->
+
+    <script>
+        var bmPathURI = new URL(window.location.href);
+
+        document.querySelectorAll('.bm-lbl').forEach(node => {
+
+            node.addEventListener('click', () => {
+
+                require(['N/url'], function (url) {
+
+                    let period = node.getAttribute('bm-period');
+                    let subsidiary = bmPathURI.searchParams.get('subsidiary');
+
+                    let bmPathDetailsURI = url.resolveScript({
+                        deploymentId: 'customdeploy_bio_sl_repdet_dessobven',
+                        scriptId: 'customscript_bio_sl_repdet_dessobven',
+                        params: {
+                            period: period,
+                            subsidiary: subsidiary,
+                        }
+                    });
+
+                    // window.location.href = bmPathDetailsURI;
+                    window.open(bmPathDetailsURI, '_blank');
+
+                })
+
+            })
+
+        });
+
+        function exportToExcel() {
+
+            const xlsHref = window.location.href + '&xls=T';
+
+            const a = document.createElement('a');
+            a.href = xlsHref;
+
+            // Añade el enlace al documento y haz clic en él para descargar
+            document.body.appendChild(a);
+            a.click();
+
+            // Limpia el objeto URL y elimina el enlace
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+    </script>
+
+</body>
+
+</html>

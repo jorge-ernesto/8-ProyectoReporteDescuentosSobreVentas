@@ -1,0 +1,25 @@
+<suitelet scriptid="customscript_bio_sl_repdet_dessobven">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>Biomont SL Rep. Det. Descto Sobre Vtas</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/Biomont_SuiteScript/Reportes Suitelet/Reporte Descuentos Sobre Ventas/Bio.Suitelet.DetalleReporteDescuentosSobreVentas.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_bio_sl_repdet_dessobven">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <eventtype></eventtype>
+      <isdeployed>T</isdeployed>
+      <isonline>F</isonline>
+      <loglevel>DEBUG</loglevel>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>RELEASED</status>
+      <title>Biomont SL Rep. Det. Descto Sobre Vtas</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</suitelet>
